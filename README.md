@@ -31,6 +31,15 @@ npm install tailwindcss
 ### Customizations
 * added global `ddf()` and `ddq()` for easier debugging
 * add tailwind max-width classes to `/resources/views/vendor/livewire-ui-modal/modal.blade.php` to ensure they are not purged by tailwind purge
+* add Permissions and Roles
+  ```
+  art make:model role -crmf
+  art make:model permission -crmf
+  art make:migration create_users_roles_table
+  art make:migration create_roles_permissions_table
+  art make:migration create_users_permissions_table
+  art make:migration add_soft_delete_to_users
+  ```
 
 ## ToDo
 * Build out user groups, roles, and permissions
