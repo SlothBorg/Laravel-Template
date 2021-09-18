@@ -9,7 +9,7 @@ trait HasRolesAndPermissions
 {
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class,'users_permissions');
+        return $this->belongsToMany(Permission::class,);
     }
 
     public function hasPermission(string $permissionName) : bool
