@@ -39,10 +39,10 @@ class RolesTest extends TestCase
         $role = Role::factory()->create();
         $user->addRole($role);
 
-        $this->assertEquals([$role->name], $user->roles()->get()->pluck('name')->toArray());
+        $this->assertTrue($user->hasRole($role));;
         $user->removeRole($role);
 
-        $this->assertEquals([], $user->roles()->get()->pluck('name')->toArray());
+        $this->assertFalse($user->hasRole($role));
     }
 
     public function test_removing_a_role_leaves_other_roles_intact()
@@ -53,7 +53,9 @@ class RolesTest extends TestCase
         $user->addRoles([$role1, $role2]);
 
         $user->removeRole($role1);
-        $this->assertEquals([$role2->name], $user->roles()->get()->pluck('name')->toArray());
+
+        $this->assertFalse($user->hasRole($role1));
+        $this->assertTrue($user->hasRole($role2));
     }
 
     public function test_roles_can_have_permissions()

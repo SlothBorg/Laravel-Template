@@ -29,14 +29,14 @@ trait HasRoles
     public function addRoles($roles) : void
     {
         foreach ($roles as $role) {
-            $this->attachRole($role);
+            $this->addRole($role);
         }
     }
 
     public function removeRoles($roles) : void
     {
         foreach ($roles as $role) {
-            $this->detachRole($role);
+            $this->removeRole($role);
         }
     }
 }
