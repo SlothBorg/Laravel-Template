@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="bootstrap/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="true"
+         defaultTestSuite="acceptance">
+    <listeners>
+        <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener">
+            <arguments>
+                <array>
+                    <element key="slowThreshold">
+                        <integer>2000</integer>
+                    </element>
+                    <element key="reportLength">
+                        <integer>5</integer>
+                    </element>
+                </array>
+            </arguments>
+        </listener>
+    </listeners>
+    <testsuites>
+        <testsuite name="full">
+            <directory>./tests/Feature/</directory>
+            <directory>./tests/Unit/</directory>
+        </testsuite>
+        <testsuite name="acceptance">
+            <directory>./tests/Feature/</directory>
+            <directory>./tests/Unit/</directory>
+        </testsuite>
+        <testsuite name="feature">
+            <directory>./tests/Feature/</directory>
+        </testsuite>
+        <testsuite name="unit">
+            <directory>./tests/Unit/</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">app/</directory>
+            <exclude>
+                <directory suffix=".php">app/Vendor</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-html" target="reports/phpunit" lowUpperBound="30" highLowerBound="70"/>
+    </logging>
+    <php>
+        <env name="APP_DEBUG" value="false"/>
+        <env name="APP_ENV" value="testing"/>
+        <env name="BCRYPT_ROUNDS" value="4"/>
+        <env name="CACHE_DRIVER" value="array"/>
+        <env name="MAIL_DRIVER" value="array"/>
+        <env name="QUEUE_DRIVER" value="sync"/>
+        <env name="SESSION_DRIVER" value="array"/>
+<!--        <env name="DB_CONNECTION" value="testing"/>-->
+        <env name="TELESCOPE_ENABLED" value="false"/>
+    </php>
+</phpunit>

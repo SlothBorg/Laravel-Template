@@ -12,7 +12,8 @@ class PermissionsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_users_can_have_permissions()
+    /** @test */
+    public function users_can_have_permissions()
     {
         $user = User::factory()->create();
 
@@ -22,7 +23,8 @@ class PermissionsTest extends TestCase
         $this->assertTrue($user->hasPermission($permission));
     }
 
-    public function test_users_can_have_permissions_revoked()
+    /** @test */
+    public function users_can_have_permissions_revoked()
     {
         $user = User::factory()->create();
 
@@ -36,8 +38,8 @@ class PermissionsTest extends TestCase
         $this->assertFalse($user->hasPermission($permission));
     }
 
-
-    public function test_permissions_can_be_attached_to_multiple_roles()
+    /** @test */
+    public function permissions_can_be_attached_to_multiple_roles()
     {
         $permission = Permission::factory()->create();
         $role1 = Role::factory()->create();
@@ -50,18 +52,19 @@ class PermissionsTest extends TestCase
         $this->assertTrue($permission->hasRole($role2));
     }
 
-    public function test_user_can_have_permissions_from_both_roles_and_individual_permissions()
+    /** @test */
+    public function user_can_have_permissions_from_both_roles_and_individual_permissions()
     {
+        $permission1 = Permission::factory()->create();
+        $permission2 = Permission::factory()->create();
+
         $user = User::factory()->create();
-        $user->addPermission(Permission::factory()->create());
+        $user->addPermission($permission1);
         $role = Role::factory()->create();
-        $role->addPermission(Permission::factory()->create());
+        $role->addPermission($permission2);
         $user->addRole($role);
 
-//        ddf(
-//            $user->permissions()
-//        );
-
-        $this->assertEquals(Permission::all()->pluck('name')->toArray(), $user->permissions()->get()->pluck('name')->toArray());
+        $this->assertTrue($user->hasPermission($permission1));
+        $this->assertTrue($user->hasPermission($permission2));
     }
 }

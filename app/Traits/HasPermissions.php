@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\Permission;
+use App\Models\Role;
 
 trait HasPermissions
 {
@@ -13,17 +14,21 @@ trait HasPermissions
 
     public function hasPermission(Permission $permission) : bool
     {
-        return (bool) $this->permissions()->where('name', $permission->name)->count();
-//        return in_array($permission, $this->getMergedPermissions());
-    }
-
-    public function hasPermissions(array $permissions) : bool
-    {
-        $flag = true;
-        foreach ($permissions as $permission) {
-            $flag = $flag && $this->hasPermission($permission);
+        if ((bool) $this->permissions()->where('name', $permission->name)->count()) {
+            return true;
+        } else {
+            $this->roles()->each(function($role) use ($permission) {
+                if () {
+                    return true;
+                }
+                dump($role->permissions()->get()->toArray());
+            });
+            ddf();
+            ddf(
+//                $this->hasManyThrough(Permission::class, Role::class)->get()->toArray()
+//                $this->roles()->permissions()
+            );
         }
-        return $flag;
     }
 
     public function addPermission(Permission $permission)

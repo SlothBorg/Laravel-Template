@@ -1,31 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
-         bootstrap="vendor/autoload.php"
-         colors="true"
->
-    <testsuites>
-        <testsuite name="Unit">
-            <directory suffix="Test.php">./tests/Unit</directory>
-        </testsuite>
-        <testsuite name="Feature">
-            <directory suffix="Test.php">./tests/Feature</directory>
-        </testsuite>
-    </testsuites>
-    <coverage processUncoveredFiles="true">
-        <include>
-            <directory suffix=".php">./app</directory>
-        </include>
-    </coverage>
-    <php>
-        <server name="APP_ENV" value="testing"/>
-        <server name="BCRYPT_ROUNDS" value="4"/>
-        <server name="CACHE_DRIVER" value="array"/>
-        <!-- <server name="DB_CONNECTION" value="sqlite"/> -->
-        <!-- <server name="DB_DATABASE" value=":memory:"/> -->
-        <server name="MAIL_MAILER" value="array"/>
-        <server name="QUEUE_CONNECTION" value="sync"/>
-        <server name="SESSION_DRIVER" value="array"/>
-        <server name="TELESCOPE_ENABLED" value="false"/>
-    </php>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" bootstrap="bootstrap/autoload.php" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false" stopOnFailure="true" defaultTestSuite="acceptance">
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">app/</directory>
+    </include>
+    <exclude>
+      <directory suffix=".php">app/Vendor</directory>
+    </exclude>
+    <report>
+      <html outputDirectory="reports/phpunit" lowUpperBound="30" highLowerBound="70"/>
+    </report>
+  </coverage>
+  <listeners>
+    <listener class="JohnKary\PHPUnit\Listener\SpeedTrapListener">
+      <arguments>
+        <array>
+          <element key="slowThreshold">
+            <integer>2000</integer>
+          </element>
+          <element key="reportLength">
+            <integer>5</integer>
+          </element>
+        </array>
+      </arguments>
+    </listener>
+  </listeners>
+  <testsuites>
+    <testsuite name="full">
+      <directory>./tests/Feature/</directory>
+      <directory>./tests/Unit/</directory>
+    </testsuite>
+    <testsuite name="acceptance">
+      <directory>./tests/Feature/</directory>
+      <directory>./tests/Unit/</directory>
+    </testsuite>
+    <testsuite name="feature">
+      <directory>./tests/Feature/</directory>
+    </testsuite>
+    <testsuite name="unit">
+      <directory>./tests/Unit/</directory>
+    </testsuite>
+  </testsuites>
+  <logging/>
+  <php>
+    <env name="APP_DEBUG" value="false"/>
+    <env name="APP_ENV" value="testing"/>
+    <env name="BCRYPT_ROUNDS" value="4"/>
+    <env name="CACHE_DRIVER" value="array"/>
+    <env name="MAIL_DRIVER" value="array"/>
+    <env name="QUEUE_DRIVER" value="sync"/>
+    <env name="SESSION_DRIVER" value="array"/>
+    <!--        <env name="DB_CONNECTION" value="testing"/>-->
+    <env name="TELESCOPE_ENABLED" value="false"/>
+  </php>
 </phpunit>

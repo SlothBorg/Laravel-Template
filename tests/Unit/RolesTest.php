@@ -12,7 +12,8 @@ class RolesTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_users_can_have_a_role()
+    /** @test */
+    public function users_can_have_a_role()
     {
         $user = User::factory()->create();
         $role = Role::factory()->create();
@@ -21,7 +22,8 @@ class RolesTest extends TestCase
         $this->assertTrue($user->hasRole($role));
     }
 
-    public function test_can_add_a_role_to_a_user_with_roles()
+    /** @test */
+    public function can_add_a_role_to_a_user_with_roles()
     {
         $user = User::factory()->create();
         $role1 = Role::factory()->create();
@@ -33,7 +35,8 @@ class RolesTest extends TestCase
         $this->assertTrue($user->hasRole($role2));
     }
 
-    public function test_can_remove_a_role_from_a_user()
+    /** @test */
+    public function can_remove_a_role_from_a_user()
     {
         $user = User::factory()->create();
         $role = Role::factory()->create();
@@ -45,7 +48,8 @@ class RolesTest extends TestCase
         $this->assertFalse($user->hasRole($role));
     }
 
-    public function test_removing_a_role_leaves_other_roles_intact()
+    /** @test */
+    public function removing_a_role_leaves_other_roles_intact()
     {
         $user = User::factory()->create();
         $role1 = Role::factory()->create();
@@ -58,7 +62,8 @@ class RolesTest extends TestCase
         $this->assertTrue($user->hasRole($role2));
     }
 
-    public function test_roles_can_have_permissions()
+    /** @test */
+    public function roles_can_have_permissions()
     {
         $role = Role::factory()->create();
         $permission1 = Permission::factory()->create();
