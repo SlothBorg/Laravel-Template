@@ -18,23 +18,23 @@ class PermissionsTest extends TestCase
         $user = User::factory()->create();
 
         $permission = Permission::factory()->create();
-        $user->addPermission($permission);
 
+        $user->addPermission($permission);
         $this->assertTrue($user->hasPermission($permission));
     }
 
     /** @test */
     public function users_can_have_permissions_revoked()
     {
+        $this->withoutExceptionHandling();
         $user = User::factory()->create();
 
         $permission = Permission::factory()->create();
-        $user->addPermission($permission);
 
+        $user->addPermission($permission);
         $this->assertTrue($user->hasPermission($permission));
 
         $user->removePermission($permission);
-
         $this->assertFalse($user->hasPermission($permission));
     }
 
@@ -55,11 +55,14 @@ class PermissionsTest extends TestCase
     /** @test */
     public function user_can_have_permissions_from_both_roles_and_individual_permissions()
     {
+        $this->withoutExceptionHandling();
+
         $permission1 = Permission::factory()->create();
         $permission2 = Permission::factory()->create();
 
         $user = User::factory()->create();
         $user->addPermission($permission1);
+
         $role = Role::factory()->create();
         $role->addPermission($permission2);
         $user->addRole($role);

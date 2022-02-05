@@ -14,21 +14,17 @@ trait HasPermissions
 
     public function hasPermission(Permission $permission) : bool
     {
+        $hasPermission = False;
         if ((bool) $this->permissions()->where('name', $permission->name)->count()) {
-            return true;
+            $hasPermission = true;
         } else {
-            $this->roles()->each(function($role) use ($permission) {
-                if () {
-                    return true;
+             $this->roles()->each(function($role) use ($permission, &$hasPermission) {
+                if ((bool) $role->permissions()->where('name', $permission->name)->count()) {
+                    $hasPermission = true;
                 }
-                dump($role->permissions()->get()->toArray());
             });
-            ddf();
-            ddf(
-//                $this->hasManyThrough(Permission::class, Role::class)->get()->toArray()
-//                $this->roles()->permissions()
-            );
         }
+        return $hasPermission;
     }
 
     public function addPermission(Permission $permission)
